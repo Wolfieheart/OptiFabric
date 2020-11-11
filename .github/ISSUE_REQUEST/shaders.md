@@ -7,12 +7,14 @@ labels: 'Type: shaders'
 <!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->
 <!-- If a mod is incompatible, please use the Incompatible Mods issue creator -->
 <!-- If Optifabric is crashing your game, please use the Bug Report issue creator -->
-<!-- If you require support, please use the Generic Support issue creator -->
+<!-- If you have questions, please use the Questions issue creator -->
 <!-- If certain shaders are not working with OptiFabric, please use the Shaders Issues issue creator -->
 
 #### What are you experiencing?
 <!-- If a mod is incompatible, please use the Incompatible Mods issue creator -->
 <!-- If Optifabric is crashing your game, please use the Bug Report issue creator -->
+<!-- If you have questions, please use the Questions issue creator -->
+<!-- If certain shaders are not working with OptiFabric, please use the Shaders Issues issue creator -->
 
 #### What shaders are you using?
 <!-- What Shaders are you using? -->
