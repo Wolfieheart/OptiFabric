@@ -1,6 +1,6 @@
 ---
 name: Generic Support
-about: For all Generic Support Questions!
+about: For all Generic Support Questions! (ex: Freezes on Load)
 labels: 'Type: support ticket'
 ---
 
@@ -8,9 +8,9 @@ labels: 'Type: support ticket'
 <!-- If a mod is incompatible, please use the Incompatible Mods issue creator -->
 <!-- If Optifabric is crashing your game, please use the Bug Report issue creator -->
 <!-- If you require support, please use the Generic Support issue creator -->
+<!-- If certain shaders are not working with OptiFabric, please use the Shaders Issues issue creator -->
 
 #### What are you experiencing?
-<!-- Is it a Shaders issue, or any other generic issue? -->
 <!-- If a mod is incompatible, please use the Incompatible Mods issue creator -->
 <!-- If Optifabric is crashing your game, please use the Bug Report issue creator -->
 

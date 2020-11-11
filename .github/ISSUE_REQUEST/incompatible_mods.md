@@ -5,7 +5,10 @@ labels: 'Type: Incompatible Mod'
 ---
 
 <!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->
-<!-- Also if it pertains to OptiFabric Itself, Please report it using the Bug Report issue form -->
+<!-- If a mod is incompatible, please use the Incompatible Mods issue creator -->
+<!-- If Optifabric is crashing your game, please use the Bug Report issue creator -->
+<!-- If you require support, please use the Generic Support issue creator -->
+<!-- If certain shaders are not working with OptiFabric, please use the Shaders Issues issue creator -->
 
 #### Name of Mod In Question
 <!-- What is the name of the Incompatible Mod-->

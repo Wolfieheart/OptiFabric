@@ -11,7 +11,6 @@ labels: 'Type: shaders'
 <!-- If certain shaders are not working with OptiFabric, please use the Shaders Issues issue creator -->
 
 #### What are you experiencing?
-<!-- Is it a Shaders issue, or any other generic issue? -->
 <!-- If a mod is incompatible, please use the Incompatible Mods issue creator -->
 <!-- If Optifabric is crashing your game, please use the Bug Report issue creator -->
 
