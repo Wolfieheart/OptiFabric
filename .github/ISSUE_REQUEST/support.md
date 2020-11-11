@@ -1,7 +1,7 @@
 ---
-name: Generic Support
+name: Questions
 about: For all Generic Support Questions! (ex: Freezes on Load)
-labels: 'Type: support ticket'
+labels: 'Type: question'
 ---
 
 <!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->
