@@ -11,7 +11,7 @@ labels: 'Type: Bug'
 <!-- If certain shaders are not working with OptiFabric, please use the Shaders Issues issue creator -->
 
 #### Version Number
-<!-- What Version of OptiFabric are you using -->
+<!-- What Version of OptiFabric are you using? -->
 
 #### List of Other Mods and Versions
 <!-- What Other Mods are you using? What versions are they? -->
