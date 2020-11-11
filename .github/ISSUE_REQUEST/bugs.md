@@ -2,6 +2,7 @@
 name: "\U0001F41B Bug Report"
 about: Is something broken with Optifabric, please report it here!
 labels: 'Type: Bug'
+title: "[Category] Short description"
 ---
 
 <!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->

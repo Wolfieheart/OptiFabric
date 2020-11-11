@@ -2,6 +2,7 @@
 name: Incompatible Mods
 about: Is another mod breaking Optifabric, please report it here!
 labels: 'Type: Incompatible Mod'
+title: "[Category] Short description"
 ---
 
 <!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->

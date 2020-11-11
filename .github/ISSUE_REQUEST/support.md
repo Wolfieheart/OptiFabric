@@ -2,6 +2,7 @@
 name: Questions
 about: For all Support Questions! (ex: Freezes on Load)
 labels: 'Type: question'
+title: "[Category] Short description"
 ---
 
 <!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->

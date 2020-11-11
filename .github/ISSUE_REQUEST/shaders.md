@@ -2,6 +2,7 @@
 name: Shaders Issues
 about: For all issues with Shaders and OptiFabric
 labels: 'Type: shaders'
+title: "[Category] Short description"
 ---
 
 <!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->
