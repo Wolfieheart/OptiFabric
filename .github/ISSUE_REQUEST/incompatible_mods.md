@@ -5,7 +5,7 @@ labels: 'Type: Incompatible Mod'
 ---
 
 <!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->
-<!-- Also if it pertains to OptiFabric Itself, Please report it there -->
+<!-- Also if it pertains to OptiFabric Itself, Please report it using the Bug Report issue form -->
 
 #### Name of Mod In Question
 <!-- What is the name of the Incompatible Mod-->

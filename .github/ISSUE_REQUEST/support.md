@@ -1,0 +1,28 @@
+---
+name: Generic Support
+about: For all Generic Support Questions!
+labels: 'Type: support ticket'
+---
+
+<!-- Before reporting an issue with optifabric, please ensure you are using the latest version of OptiFabric --->
+<!-- If a mod is incompatible, please use the Incompatible Mods issue creator -->
+<!-- If Optifabric is crashing your game, please use the Bug Report issue creator -->
+<!-- If you require support, please use the Generic Support issue creator -->
+
+#### What are you experiencing?
+<!-- Is it a Shaders issue, or any other generic issue? -->
+<!-- If a mod is incompatible, please use the Incompatible Mods issue creator -->
+<!-- If Optifabric is crashing your game, please use the Bug Report issue creator -->
+
+#### Version of Fabric 
+<!-- What version of Fabric are you using-->
+
+#### Version Number
+<!-- What Version of OptiFabric are you using -->
+
+#### List of Other Mods
+<!-- What Other Mods are you using as well? -->
+
+#### Crash Logs (If any)
+<!-- Is it Crashing your game? Please attach your logs! -->
+
