@@ -1,7 +1,12 @@
 package me.modmuss50.optifabric.mixin;
 
+import java.io.File;
+import java.util.Optional;
+
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,12 +20,16 @@ import me.modmuss50.optifabric.mod.OptifineVersion;
 
 @Mixin(CrashReport.class)
 abstract class CrashReportMixin {
-	@Shadow
-	public abstract CrashReportSection addElement(String name);
+	private static CrashReportSection makeSection(CrashReport crash, String name) {
+		try {
+			return ConstructorUtils.invokeExactConstructor(CrashReportSection.class, name);
+		} catch (ReflectiveOperationException e) {
+			return new CrashReportSection(crash, name);
+		}
+	}
 
-	@Inject(method = "<init>", at = @At("RETURN"))
-	private void fillSystemDetails(CallbackInfo info) {
-		addElement("OptiFabric")
+	@Unique
+	private final CrashReportSection optifine = makeSection((CrashReport) (Object) this, "OptiFabric")
 			.add("OptiFine jar designed for", OptifineVersion.minecraftVersion)
 			.add("OptiFine jar version", OptifineVersion.version)
 			.add("OptiFine jar status", () -> {
@@ -55,7 +64,7 @@ abstract class CrashReportMixin {
 					return "Unsearched";
 				}
 			})
-			.add("OptiFine remapped jar", OptifabricSetup.optifineRuntimeJar)
+			.add("OptiFine remapped jar", Optional.ofNullable(OptifabricSetup.optifineRuntimeJar).map(jar -> jar.toString().replace(File.separatorChar, '/')).orElse(null))
 			.add("OptiFabric error", () -> {
 				if (OptifabricError.hasError()) {
 					return OptifabricError.getError();
@@ -64,5 +73,9 @@ abstract class CrashReportMixin {
 				}
 			})
 		;
+
+	@Inject(method = "addStackTrace", at = @At("RETURN"))
+	private void addStackTrace(StringBuilder builder, CallbackInfo info) {
+		optifine.addStackTrace(builder.append("\n\n"));
 	}
 }

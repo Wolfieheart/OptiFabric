@@ -10,9 +10,7 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipError;
 import java.util.zip.ZipException;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.stream.JsonReader;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.mutable.MutableBoolean;
@@ -22,7 +20,7 @@ import org.objectweb.asm.tree.FieldNode;
 
 import net.fabricmc.loader.api.FabricLoader;
 
-import me.modmuss50.optifabric.patcher.ASMUtils;
+import me.modmuss50.optifabric.util.ASMUtils;
 import me.modmuss50.optifabric.util.ZipUtils;
 
 public class OptifineVersion {
@@ -39,13 +37,9 @@ public class OptifineVersion {
 			File optifineJar = null;
 
 			for (File file : mods) {
-				if (file.isDirectory()) {
-					continue;
-				}
-
-				if ("jar".equals(FilenameUtils.getExtension(file.getName()))) {
+				if (!file.isDirectory() && "jar".equals(FilenameUtils.getExtension(file.getName())) && !file.getName().startsWith(".") && !file.isHidden()) {
 					JarType type = getJarType(file);
-					if (type.error) {
+					if (type.isError()) {
 						jarType = type;
 						throw new RuntimeException("An error occurred when trying to find the optifine jar: " + type.name());
 					}
@@ -53,12 +47,12 @@ public class OptifineVersion {
 					if (type == JarType.OPTIFINE_MOD || type == JarType.OPTIFINE_INSTALLER) {
 						if (optifineJar != null) {
 							jarType = JarType.DUPLICATED;
-							OptifabricError.setError("Found more than one OptiFine jar, please ensure you only have 1 copy of optifine in the mods folder!");
+							OptifabricError.setError("Please ensure you only have 1 copy of OptiFine in the mods folder!\nFound: %s\n       %s", optifineJar, file);
 							throw new FileAlreadyExistsException("Multiple optifine jars: " + file.getName() + " and " + optifineJar.getName());
 						}
 
 						jarType = type;
-						optifineJar =  file;
+						optifineJar = file;
 					}
 				}
 			}
@@ -69,7 +63,7 @@ public class OptifineVersion {
 		}
 
 		jarType = JarType.MISSING;
-		OptifabricError.setError("OptiFabric could not find the Optifine jar in the mods folder.");
+		OptifabricError.setError("OptiFabric could not find the Optifine jar in the mods folder:\n%s", modsDir);
 		throw new FileNotFoundException("Could not find optifine jar");
 	}
 
@@ -80,38 +74,47 @@ public class OptifineVersion {
 			if (jarEntry == null) {
 				return JarType.SOMETHING_ELSE;
 			}
-			classNode = ASMUtils.asClassNode(jarEntry, jarFile);
+			classNode = ASMUtils.readClass(jarFile, jarEntry);
 		} catch (ZipException | ZipError e) {
-			OptifabricError.setError("The zip at " + file + " is corrupt");
+			OptifabricError.setError("The jar at " + file + " is corrupt");
 			return JarType.CORRUPT_ZIP;
 		}
 
 		for (FieldNode fieldNode : classNode.fields) {
-			if (fieldNode.name.equals("VERSION")) {
+			if ("VERSION".equals(fieldNode.name)) {
 				version = (String) fieldNode.value;
 			}
-			if (fieldNode.name.equals("MC_VERSION")) {
+			if ("MC_VERSION".equals(fieldNode.name)) {
 				minecraftVersion = (String) fieldNode.value;
 			}
 		}
 
 		if (version == null || version.isEmpty() || minecraftVersion == null || minecraftVersion.isEmpty()) {
-			OptifabricError.setError("Unable to find OptiFine version from OptiFine jar");
+			OptifabricError.setError("Unable to find OptiFine version from OptiFine jar at " + file);
 			return JarType.INCOMPATIBLE;
 		}
 
-		String currentMcVersion;
-		try (InputStreamReader in = new InputStreamReader(OptifineVersion.class.getResourceAsStream("/version.json"))) {
-			JsonObject jsonObject = new Gson().fromJson(in, JsonObject.class);
-			currentMcVersion = jsonObject.get("name").getAsString();
-		} catch (IOException | JsonParseException e) {
-			OptifabricError.setError("Failed to find current minecraft version");
+		String currentMcVersion = "unknown";
+		try (JsonReader in = new JsonReader(new InputStreamReader(OptifineVersion.class.getResourceAsStream("/version.json")))) {
+			in.beginObject();
+
+			while (in.hasNext()) {
+				if ("id".equals(in.nextName())) {
+					currentMcVersion = in.nextString();
+					break;
+				} else {
+					in.skipValue();
+				}
+			}
+		} catch (IOException | IllegalStateException e) {
+			OptifabricError.setError(e, "Failed to find current minecraft version, please report this");
 			e.printStackTrace();
 			return JarType.INTERNAL_ERROR;
 		}
 
 		if (!currentMcVersion.equals(minecraftVersion)) {
-			OptifabricError.setError(String.format("This version of optifine is not compatible with the current minecraft version\n\n Optifine requires %s you have %s", minecraftVersion, currentMcVersion));
+			OptifabricError.setError("This version of OptiFine from %s is not compatible with the current minecraft version\n\nOptifine requires %s you are running %s",
+										file, minecraftVersion, currentMcVersion);
 			return JarType.INCOMPATIBLE;
 		}
 
@@ -142,7 +145,7 @@ public class OptifineVersion {
 		INTERNAL_ERROR(true),
 		SOMETHING_ELSE(false);
 
-		final boolean error;
+		private final boolean error;
 
 		JarType(boolean error) {
 			this.error = error;

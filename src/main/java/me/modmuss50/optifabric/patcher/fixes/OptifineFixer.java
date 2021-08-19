@@ -11,6 +11,7 @@ import java.util.Set;
 import net.fabricmc.loader.api.FabricLoader;
 
 import me.modmuss50.optifabric.compat.fabricrenderingfluids.FluidRendererFix;
+import me.modmuss50.optifabric.compat.uglyscoreboardfix.InGameHudFix;
 import me.modmuss50.optifabric.util.RemappingUtils;
 
 public class OptifineFixer {
@@ -21,11 +22,11 @@ public class OptifineFixer {
 	private final Set<String> skippedClass = new HashSet<>();
 
 	private OptifineFixer() {
-		//net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk
-		registerFix("class_846$class_851$class_4578", new ChunkRendererFix());
+		//net/minecraft/client/render/chunk/ChunkBuilder$ChunkData
+		registerFix("class_846$class_849", new ChunkDataFix());
 
-		//net/minecraft/client/render/block/BlockModelRenderer
-		registerFix("class_778", new BlockModelRendererFix());
+		//net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask
+		registerFix("class_846$class_851$class_4578", new ChunkRendererFix());
 
 		//net/minecraft/client/render/block/BlockModelRenderer$AmbientOcclusionCalculator
 		registerFix("class_778$class_780", new AmbientOcclusionCalculatorFix());
@@ -45,6 +46,11 @@ public class OptifineFixer {
 		if (FabricLoader.getInstance().isModLoaded("fabric-rendering-fluids-v1")) {
 			//net/minecraft/client/render/block/FluidRenderer
 			registerFix("class_775", new FluidRendererFix());
+		}
+
+		if (FabricLoader.getInstance().isModLoaded("uglyscoreboardfix")) {
+			//net/minecraft/client/gui/hud/InGameHud
+			registerFix("class_329", new InGameHudFix());
 		}
 	}
 
